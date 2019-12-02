@@ -14,30 +14,42 @@
           <v-img src="../../assets/logo.jpg"></v-img>
         </v-avatar>
       </div>
-      <v-text-field
-        label="Email"
-        v-model="email"
-      ></v-text-field>
-      <v-text-field
-        type="password"
-        label="Password"
-        v-model="password"
-      ></v-text-field>
-      <v-text-field
-        type="password"
-        label="Confirm password"
-        v-model="confirmPassword"
-      ></v-text-field>
-      <v-text-field
-        label="First name"
-        v-model="firstName"
-      ></v-text-field>
-      <v-text-field
-        label="Last name"
-        v-model="lastName"
-      ></v-text-field>
+      <v-form
+        ref="form"
+        v-model="valid"
+      >
+        <v-text-field
+          label="Email"
+          v-model="email"
+          :rules="[rule_required, rule_email]"
+        ></v-text-field>
+        <v-text-field
+          type="password"
+          label="Password"
+          v-model="password"
+          :rules="[rule_required, rule_alpha_num, rule_length(6, 16)]"
+        ></v-text-field>
+        <v-text-field
+          type="password"
+          label="Confirm password"
+          v-model="confirmPassword"
+          :rules="[rule_required, rule_alpha_num, rule_length(6, 16), passwordMatch]"
+        ></v-text-field>
+        <v-text-field
+          label="First name"
+          v-model="firstName"
+          :rules="[rule_required, rule_alpha, rule_length(6, 16)]"
+        ></v-text-field>
+        <v-text-field
+          label="Last name"
+          v-model="lastName"
+          :rules="[rule_required, rule_alpha, rule_length(6, 16)]"
+        ></v-text-field>
+      </v-form>
       <v-btn
         class="d-block mt-4 mx-auto primary"
+        :disabled="!valid"
+        :loading="loading"
         @click="signUp"
       >sign up</v-btn>
     </v-card>
@@ -45,10 +57,15 @@
 </template>
 
 <script>
-import { Auth } from 'aws-amplify';
+import { mapActions } from 'vuex';
+import { SIGN_UP } from '../../store/actions/user';
+import ValidationRules from '../../utils/validation-rules';
 
 export default {
+  mixins: [ValidationRules],
   data: () => ({
+    valid: true,
+    loading: false,
     email: '',
     password: '',
     confirmPassword: '',
@@ -56,21 +73,23 @@ export default {
     lastName: ''
   }),
   methods: {
+    ...mapActions({
+      signUpRequest: SIGN_UP
+    }),
     async signUp() {
-      try {
-        await Auth.signUp({
-          username: this.email,
+      this.loading = true;
+      if (this.$refs.form.validate()) {
+        await this.signUpRequest({
+          email: this.email,
           password: this.password,
-          attributes: {
-            email: this.email,
-            family_name: this.lastName,
-            given_name: this.firstName
-          }
+          firstName: this.firstName,
+          lastName: this.lastName
         });
-        this.$router.push({ name: 'ConfirmEmail', params: { email: this.email } });
-      } catch (error) {
-        console.log(error);
       }
+      this.loading = false;
+    },
+    passwordMatch() {
+      return this.password === this.confirmPassword || 'Passwords should match!';
     }
   }
 };

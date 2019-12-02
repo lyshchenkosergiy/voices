@@ -4,3 +4,7 @@ export const INIT = 'INIT';
 export const INIT_LOADING = 'INIT_LOADING';
 export const SIGN_OUT = 'SIGN_OUT';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_UP = 'SIGN_UP';
+export const CONFIRM_SIGN_UP = 'CONFIRM_SIGN_UP';
+export const RESEND_CONFIRM_SIGN_UP_CODE = 'RESEND_CONFIRM_SIGN_UP_CODE';

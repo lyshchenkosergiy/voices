@@ -90,6 +90,10 @@ p {
   white-space: wrap;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .v-btn:not(.v-btn--round) {
   min-width: 120px!important;
 }

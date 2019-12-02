@@ -14,7 +14,7 @@
       </v-btn>
     </v-toolbar>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary :width="fullWidth ? '100%' : '200'">
+    <v-navigation-drawer v-model="drawer" absolute temporary :width="fullWidth ? '100%' : '220'">
       <v-toolbar flat>
         <v-spacer></v-spacer>
         <v-btn icon @click="drawer=!drawer">
@@ -25,7 +25,7 @@
         <v-avatar class="mx-auto" size="150">
           <v-img :src="avatar"></v-img>
         </v-avatar>
-        <div class="mt-4">{{profile.email}}</div>
+        <div class="mt-4 px-4 w-full text-center ellipsis">{{profile.email}}</div>
         <v-list class="mt-4">
           <v-list-item
             v-for="route in routes"
