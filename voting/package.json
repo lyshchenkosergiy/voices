@@ -1,0 +1,19 @@
+{
+  "name": "voting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "local": "node_modules/.bin/ganache-cli -h 127.0.0.1 -p 8545 --networkId 42",
+    "test": "node_modules/.bin/truffle test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eth-gas-reporter": "^0.2.6",
+    "ganache-cli": "^6.7.0",
+    "truffle": "^5.0.37",
+    "truffle-test-utils": "^0.1.0"
+  }
+}

@@ -1,0 +1,10 @@
+export const VOTINGS = 'VOTINGS';
+export const MY_VOTINGS = 'MY_VOTINGS';
+export const VOTINGS_LOADING = 'VOTINGS_LOADING';
+export const MY_VOTINGS_LOADING = 'MY_VOTINGS_LOADING';
+export const SET_VOTINGS_STATE = 'SET_VOTINGS_STATE';
+export const GET_VOTINGS = 'GET_VOTINGS';
+export const GET_MY_VOTINGS = 'GET_MY_VOTINGS';
+export const CREATE_VOTING = 'CREATE_VOTING';
+export const DELETE_VOTING = 'DELETE_VOTING';
+export const JOIN_VOTING = 'JOIN_VOTING';

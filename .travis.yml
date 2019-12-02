@@ -1,0 +1,7 @@
+language: node_js
+before_install:
+  - pip install --user awscli
+node_js:
+  - node
+script: 
+  - bash ./deploy.sh
