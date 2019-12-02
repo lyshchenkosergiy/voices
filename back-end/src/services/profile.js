@@ -3,7 +3,6 @@ const { Profile } = require('../models');
 module.exports = {
   async getProfile(userId) {
     const profile = await Profile.findOne({ userId });
-    console.log(profile, 'sssssssssssssssssssssssssss')
     return profile;
   },
   async createProfile(userId, profileData) {
