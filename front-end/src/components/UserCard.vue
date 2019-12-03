@@ -20,7 +20,7 @@
         <v-tooltip top max-width="400">
           <template v-slot:activator="{ on }">
             <span v-on="on" >{{profile.lastName}}
-              <span style="float:right;" v-if="isOwn"> (You)</span>
+              <span class="float-right" v-if="isOwn"> (You)</span>
             </span>
           </template>
           <span class="ignore">{{profile.lastName}}</span>

@@ -4,7 +4,7 @@
       Results
     </v-card-title>
     <v-card-text>
-      <template v-if="anonymous">Note: this voting is anonymous, so you can see only transactions info!</template>
+      <p class="mb-4" v-if="anonymous">Note: this voting is anonymous, so you can see only transactions info!</p>
       <v-data-table
         hide-default-footer
         :headers="headers"
@@ -28,7 +28,7 @@
       Contract state
     </v-card-title>
     <v-card-text>
-    <div class="mt-4 d-flex justify-space-around" v-if="loading">
+    <div class="my-12 ml-12" v-if="loading">
       <v-progress-circular
         indeterminate
         color="primary"

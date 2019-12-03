@@ -1,11 +1,13 @@
 <template>
-  <v-card elevation="100" class="info-card">
+  <v-card elevation="100" class="info-card relative">
     <v-img height="150px" class="white--text" :src="variant.avatar || require('../assets/variant.jpg')">
       <v-card-title class="align-end fill-height">
-        {{variant.name}}
-        <template v-if="selected">(your choise)</template>
+        <span class="w-full ellipsis">
+          {{variant.name}}
+        </span>
       </v-card-title>
     </v-img>
+    <div class="absolute top-label white--text" v-if="selected">(your choice)</div>
     <v-card-text>
       <p class="ellipsis">
         <span class="font-weight-bold">In contract: </span>

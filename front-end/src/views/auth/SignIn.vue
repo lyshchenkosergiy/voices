@@ -16,27 +16,25 @@
       </div>
       <v-form
         ref="form"
-        v-model="valid"
-      >
+        v-model="valid">
         <v-text-field
           label="Email"
           v-model="email"
           type="email"
-          :rules="[rule_required, rule_email]"
-        ></v-text-field>
+          :rules="[rule_required, rule_email]"/>
         <v-text-field
           type="password"
           label="Password"
           v-model="password"
-          :rules="[rule_required, rule_alpha_num, rule_length(6, 16)]"
-        ></v-text-field>
+          :rules="[rule_required, rule_alpha_num, rule_length(6, 16)]"/>
       </v-form>
       <v-btn
         class="d-block mt-4 mx-auto primary"
         :disabled="!valid"
         :loading="loading"
-        @click="signIn"
-      >sign in</v-btn>
+        @click="signIn">
+        sign in
+      </v-btn>
     </v-card>
   </div>
 </template>

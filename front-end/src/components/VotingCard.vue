@@ -1,11 +1,15 @@
 <template>
-  <v-card elevation="100" class="info-card">
+  <v-card elevation="100" class="info-card relative">
     <v-img height="150px" class="white--text" :src="voting.avatar || require('../assets/voting.jpg')">
       <v-card-title class="align-end fill-height">
-        {{voting.name}}
-        <template v-if="isAcceptedMember">(member)</template>
+        <span class="w-full ellipsis">
+          {{voting.name}}
+        </span>
       </v-card-title>
     </v-img>
+    <div class="absolute top-label white--text" v-if="isAcceptedMember">(member)</div>
+    <div class="absolute top-label white--text" v-if="isRequested">(requested)</div>
+    <div class="absolute top-label white--text" v-if="isDeclined">(declined)</div>
     <v-card-text>
       <p class="ellipsis">
         <span class="font-weight-bold">Description: </span>
@@ -68,6 +72,12 @@ export default {
     },
     isAcceptedMember() {
       return this.userMember && this.userMember.state === 'Accepted';
+    },
+    isRequested() {
+      return this.userMember && this.userMember.state === 'Requested';
+    },
+    isDeclined() {
+      return this.userMember && this.userMember.state === 'Declined';
     }
   },
   methods: {

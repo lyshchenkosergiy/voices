@@ -10,15 +10,15 @@ const cognitoExpress = new CognitoExpress({
   region: VUE_APP_AWS_REGION,
   cognitoUserPoolId: VUE_APP_USER_POOL_ID,
   userPoolWebClientId: VUE_APP_USER_POOL_WEBCLIENT_ID,
-  tokenUse: 'access', 
-  tokenExpiration: 2592000000 
+  tokenUse: 'access',
+  tokenExpiration: 2592000000
 });
 
 const middleware = async (req, res, next) => {
   if (req.method === 'OPTIONS') {
     return next();
   }
-  
+
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).send({ message: 'Access token missing from header!' });

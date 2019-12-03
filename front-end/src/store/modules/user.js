@@ -108,6 +108,7 @@ export default {
       try {
         await Auth.signOut();
         commit(SET_USER_STATE, { profile: null });
+        router.push({ name: 'SignIn' });
       } catch (error) {
         dispatch(ALERT, { message: error.message || 'Log out failed!', type: 'error' });
       }

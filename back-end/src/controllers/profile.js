@@ -1,4 +1,4 @@
-const { 
+const {
   getProfile,
   createProfile,
   updateProfile

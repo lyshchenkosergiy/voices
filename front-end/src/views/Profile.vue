@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-6 py-md-0 d-flex flex-column-reverse align-center flex-sm-row justify-space-between">
+  <div class="profile-container mx-auto d-flex flex-column-reverse align-center flex-sm-row justify-space-between">
     <div class="text-center text-sm-left mt-4 mt-md-0">
       <h2>Email</h2>
       <p>{{profile.email}}</p>

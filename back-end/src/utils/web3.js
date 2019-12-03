@@ -15,4 +15,4 @@ module.exports = {
     console.log('OWNER BALANCE ---> ', web3.utils.fromWei(parentBalance, 'ether'));
     return await web3.eth.sendTransaction({ from, to, value, gas });
   }
-}
+};

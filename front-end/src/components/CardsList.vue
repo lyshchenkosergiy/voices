@@ -15,8 +15,7 @@
       class="mt-12 mx-auto"
       indeterminate
       color="primary"
-      size="64"
-    ></v-progress-circular>
+      size="64"/>
   </div>
 </template>
 

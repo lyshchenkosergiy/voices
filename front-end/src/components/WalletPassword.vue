@@ -5,24 +5,28 @@
         Wallet password
       </v-card-title>
       <v-card-text>
-        <v-text-field
-          label="Password"
-          type="password"
-          v-model="password"
-        ></v-text-field>
-        <v-text-field
-          v-if="isCreating"
-          label="Confirm password"
-          type="password"
-          v-model="confirmPassword"
-        ></v-text-field>
+        <v-form
+          ref="form"
+          v-model="valid">
+          <v-text-field
+            label="Password"
+            type="password"
+            :rules="[rule_required, rule_alpha_num, rule_length(6, 16)]"
+            v-model="password"/>
+          <v-text-field
+            v-if="isCreating"
+            label="Confirm password"
+            type="password"
+            :rules="[rule_required, rule_alpha_num, rule_length(6, 16), passwordMatch]"
+            v-model="confirmPassword"/>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-btn
           text
           color="primary"
           class="mx-auto"
-          :disabled="isCreating ? password !== confirmPassword : false"
+          :disabled="!valid"
           @click="submitPassword">
           {{isCreating ? 'Create password' : 'Submit'}}
         </v-btn>
@@ -47,6 +51,7 @@ import {
   WALLET_PASSWORD_SUBMIT,
   SET_WALLET_PASSWORD_STATE
 } from '../store/actions/wallet-password';
+import ValidationRules from '../utils/validation-rules';
 
 const defaultData = {
   password: '',
@@ -54,28 +59,44 @@ const defaultData = {
 };
 
 export default {
+  mixins: [ValidationRules],
   data: () => ({
-    ...defaultData
+    ...defaultData,
+    valid: true
   }),
   computed: {
     ...mapGetters({
       show: WALLET_PASSWORD_SHOW,
       isCreating: IS_CREATING_WALLET_PASSWORD,
       submit: WALLET_PASSWORD_SUBMIT
-    })
+    }),
+    submitDisabled() {
+      return this.isCreating
+        ? (this.password !== this.confirmPassword || !this.password || !this.confirmPassword)
+        : !this.password;
+    }
   },
   methods: {
     ...mapMutations({
       setWalletPasswordState: SET_WALLET_PASSWORD_STATE
     }),
     submitPassword() {
-      this.submit(this.password);
-      this.setWalletPasswordState({ show: false });
-      Object.assign(this, defaultData);
+      if (this.$refs.form.validate()) {
+        this.submit(this.password);
+        this.setWalletPasswordState({ show: false });
+        this.reset();
+      }
     },
     cancel() {
       this.submit();
       this.setWalletPasswordState({ show: false });
+      this.reset();
+    },
+    passwordMatch() {
+      return this.password === this.confirmPassword || 'Passwords should match!';
+    },
+    reset() {
+      this.$refs.form && this.$refs.form.resetValidation();
       Object.assign(this, defaultData);
     }
   }

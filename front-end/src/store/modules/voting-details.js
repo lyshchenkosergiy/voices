@@ -84,7 +84,6 @@ export default {
           return true;
         } else {
           await deleteVotingVariant(data._id);
-          throw new Error();
         }
       } catch (error) {
         dispatch(ALERT, { message: error.message || 'Variant adding failed!', type: 'error' });
@@ -105,6 +104,7 @@ export default {
         const { data } = await updateVotingVariant(id, variantData);
         commit(UPDATE_VARIANT, data);
         dispatch(ALERT, { message: 'Variant updated!', type: 'success' });
+        return true;
       } catch (error) {
         dispatch(ALERT, { message: error.message || 'Variant updating failed!', type: 'error' });
       }

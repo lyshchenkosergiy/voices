@@ -5,17 +5,16 @@
         class="mx-auto"
         indeterminate
         color="primary"
-        size="128"
-      ></v-progress-circular>
+        size="128"/>
     </div>
     <template v-else>
       <Layout v-if="profile"/>
-      <div class="container py-0 py-md-12">
+      <div class="py-0 px-4 px-md-12 py-md-12">
         <router-view/>
       </div>
       <AlertContainer />
     </template>
-    <WalletPassword />
+    <WalletPassword v-if="profile"/>
   </v-app>
 </template>
 
@@ -58,6 +57,10 @@ export default {
   max-width: 300px;
 }
 
+.profile-container {
+  max-width: 1000px;
+}
+
 .float-button {
   position: fixed;
   bottom: 16px;
@@ -66,6 +69,11 @@ export default {
 
 .info-card .v-card__text {
   max-height: 200px;
+}
+
+.info-card .top-label {
+  top: 15px;
+  left: 15px;
 }
 
 a {
@@ -92,6 +100,14 @@ p {
 
 .w-full {
   width: 100%;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.relative {
+  position: relative;
 }
 
 .v-btn:not(.v-btn--round) {

@@ -18,7 +18,7 @@ const schema = new Schema({
     required: false,
     default: ''
   }
-}, { timestamps: true, toJSON: { virtuals: true }  });
+}, { timestamps: true, toJSON: { virtuals: true } });
 
 schema.virtual('voting', {
   ref: 'Voting',

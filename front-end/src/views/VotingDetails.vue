@@ -6,7 +6,7 @@
         color="primary"
         size="64"/>
     </div>
-    <template v-else-if="votingDetails">
+    <template v-else-if="votingDetails && profile">
       <div class="d-flex flex-column-reverse align-center flex-sm-row justify-space-between">
         <div class="text-center text-sm-left mt-4 mt-md-0">
           <h2>Name</h2>
@@ -87,7 +87,7 @@
         <h2>Contract</h2>
         <a class="d-block link ellipsis" target="_blank" :href="contractLink">{{contractLink}}</a>
         <template v-if="isFinished && !my">
-          <h2>Your choise</h2>
+          <h2>Your choice</h2>
           <template v-if="chooiseLink">
             <a class="d-block link ellipsis" target="_blank" :href="chooiseLink">{{chooiseLink}}</a>
           </template>
@@ -119,7 +119,7 @@
             :canEdit="my && isCreated"
             :selected="userVote && userVote.variantId === item._id"
             @remove="removeVariant"
-            @edit="editVariant"
+            @edit="editableVariant = item"
             @vote="voteVariant"/>
         </template>
       </CardsList>
@@ -174,20 +174,11 @@
         </v-card>
       </v-dialog>
 
-      <template v-if="my">
-        <v-dialog v-model="variantDialog" max-width="600">
-          <CreateVariant
-          :loading="createVariantLoading"
-          v-if="variantDialog"
-          @create="createVariant"
-          @cancel="variantDialog = false"
-          @update="updateVariant"
-          :editableVariant="editableVariant"/>
-        </v-dialog>
-        <v-btn v-if="isCreated" class="float-button" color="primary" fab @click="newVariant">
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
+      <CreateVariantDialog
+        v-if="my && isCreated"
+        :votingId="votingDetails._id"
+        :editableVariant="editableVariant"
+        @edited="editableVariant = null"/>
     </template>
   </div>
 </template>
@@ -198,9 +189,7 @@ import {
   VOTING_DETAILS,
   VOTING_DETAILS_LOADING,
   GET_VOTING_DETAILS,
-  ADD_VARIANT,
   DELETE_VARIANT,
-  UPDATE_VARIANT_REQUEST,
   START_VOTING,
   FINISH_VOTING,
   ACCEPT_MEMBER,
@@ -212,7 +201,7 @@ import { JOIN_VOTING } from '../store/actions/votings';
 import { PROFILE } from '../store/actions/user';
 import { UPLOAD_FILE } from '../store/actions/aws';
 
-import CreateVariant from '../components/CreateVariant';
+import CreateVariantDialog from '../components/CreateVariantDialog';
 import VariantCard from '../components/VariantCard';
 import UserCard from '../components/UserCard';
 import CardsList from '../components/CardsList';
@@ -224,7 +213,7 @@ const etherscanUrl = 'https://kovan.etherscan.io';
 
 export default {
   components: {
-    CreateVariant,
+    CreateVariantDialog,
     VariantCard,
     UserCard,
     CardsList,
@@ -233,8 +222,6 @@ export default {
     VotingResults
   },
   data: () => ({
-    variantDialog: false,
-    createVariantLoading: false,
     avatarUploading: false,
     editableVariant: null,
     confirmDialog: false,
@@ -299,9 +286,7 @@ export default {
   methods: {
     ...mapActions({
       getVotingDetails: GET_VOTING_DETAILS,
-      addVariant: ADD_VARIANT,
       deleteVariant: DELETE_VARIANT,
-      updateVariantRequest: UPDATE_VARIANT_REQUEST,
       startVoting: START_VOTING,
       finishVoting: FINISH_VOTING,
       acceptMember: ACCEPT_MEMBER,
@@ -311,38 +296,12 @@ export default {
       uploadFile: UPLOAD_FILE,
       updateVoting: UPDATE_VOTING
     }),
-    newVariant() {
-      this.editableVariant = null;
-      this.variantDialog = true;
-    },
-    editVariant(variant) {
-      this.editableVariant = variant;
-      this.variantDialog = true;
-    },
-    async updateVariant(variantData) {
-      this.createVariantLoading = true;
-      await this.updateVariantRequest({
-        variantData,
-        id: this.editableVariant._id
-      });
-      this.createVariantLoading = false;
-      this.variantDialog = false;
-      this.editableVariant = null;
-    },
-    async createVariant(variantData) {
-      this.createVariantLoading = true;
-      const result = await this.addVariant({ ...variantData, votingId: this.votingDetails._id });
-      if (result) {
-        this.variantDialog = false;
-      }
-      this.createVariantLoading = false;
-    },
     async removeVariant({ _id }) {
       await this.deleteVariant(_id);
     },
     start() {
       this.openConfirmDialog(
-        'Start of this voting.',
+        'Starting of this voting.',
         async () => {
           await this.startVoting();
           this.getVotingDetails(this.$route.params.id);
@@ -351,7 +310,7 @@ export default {
     },
     finish() {
       this.openConfirmDialog(
-        'Finish of this voting.',
+        'Finishing of this voting.',
         async () => {
           await this.finishVoting();
           this.getVotingDetails(this.$route.params.id);

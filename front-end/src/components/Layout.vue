@@ -31,8 +31,7 @@
             v-for="route in routes"
             :key="route.routePath"
             link
-            :to="route.routePath"
-          >
+            :to="route.routePath">
             <v-list-item-icon>
               <v-icon>{{ route.icon }}</v-icon>
             </v-list-item-icon>
@@ -41,7 +40,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-        <v-btn @click="out" class="mt-4 primary mx-auto">
+        <v-btn @click="signOut" class="mt-4 primary mx-auto">
           Sign out
         </v-btn>
       </div>
@@ -86,11 +85,7 @@ export default {
   methods: {
     ...mapActions({
       signOut: SIGN_OUT
-    }),
-    out() {
-      this.$router.push({ name: 'SignIn' });
-      this.signOut();
-    }
+    })
   }
 };
 </script>

@@ -2,7 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const app = require('./src/express');
 
-const { 
+const {
   BACK_END_PORT,
   BACK_END_CONNECTION_STRING
 } = process.env;

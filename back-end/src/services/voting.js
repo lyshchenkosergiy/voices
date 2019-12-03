@@ -2,7 +2,7 @@ const { Voting, VotingVariant, VotingMember, Vote } = require('../models');
 
 module.exports = {
   async getVotings(userId, my = false) {
-    const query = my ? { userId } : { userId: { $ne: userId }};
+    const query = my ? { userId } : { userId: { $ne: userId } };
     const votings = await Voting.find(query)
       .populate('variants')
       .populate('votes')
@@ -12,22 +12,21 @@ module.exports = {
   async getVotingById(id) {
     const voting = await Voting.findById(id)
       .populate('variants')
-      .populate({path: 'members',
+      .populate({ path: 'members',
         model: 'VotingMember',
         populate: {
           path: 'profile',
           model: 'Profile'
-      }});
+      } });
 
     const populateVotesSettings = voting.anonymous
       ? {
-        select: '-memberId',
         populate: [{ path: 'variant', model: 'VotingVariant' }]
       }
       : {
-        populate: [{ 
+        populate: [{
           path: 'variant',
-          model: 'VotingVariant' 
+          model: 'VotingVariant'
         }, {
           path: 'member',
           model: 'VotingMember',
@@ -145,7 +144,7 @@ module.exports = {
       .populate('variants')
       .populate('members')
       .populate('votes');
-    
+
     if (!voting) {
       return { message: 'Voting doesn\'t exist!' };
     }

@@ -62,12 +62,7 @@ Required environment variables (except of specified above):
 - FRONT_END_S3_BUCKET
 
 ### TODO
-#### Must have
-1. Validation front
-2. Validation back
-3. data - image view (profile, voting-details)
 
-#### Be good to have
 1. Sockets
 2. Storing only publicKey in user join request and then filtering only by that
 3. Cascade deleting (voting -> variants/members, image, variants -> image)

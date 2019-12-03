@@ -25,21 +25,20 @@
       </div>
       <v-form
         ref="form"
-        v-model="valid"
-      >
+        v-model="valid">
         <v-text-field
           class="mt-4"
           label="Your confirmation code"
           v-model="confirmationCode"
-          :rules="[rule_required, rule_num, rule_length(6)]"
-        ></v-text-field>
+          :rules="[rule_required, rule_num, rule_length(6)]"/>
       </v-form>
       <v-btn
         class="d-block mt-4 mx-auto primary"
         :disabled="!valid"
         :loading="loading"
-        @click="confirmSignUp"
-      >Send</v-btn>
+        @click="confirmSignUp">
+        Send
+      </v-btn>
     </v-card>
   </div>
 </template>

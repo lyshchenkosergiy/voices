@@ -1,4 +1,4 @@
-const { 
+const {
   getVotings,
   createVoting,
   getVotingById,

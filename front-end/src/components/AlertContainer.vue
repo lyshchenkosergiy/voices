@@ -4,10 +4,9 @@
       v-for="(alert, index) in alerts"
       :key="index"
       :type="alert.type"
-      class="alert"
-    >
-    <div class="alert-close" @click="() => close(alert)"></div>
-    {{alert.message}}
+      class="alert">
+      <div class="alert-close" @click="() => close(alert)"></div>
+      {{alert.message}}
     </v-alert>
   </div>
 </template>

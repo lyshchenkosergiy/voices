@@ -1,10 +1,15 @@
 <template>
   <div>
+    <v-switch
+      class="mt-8"
+      color="primary"
+      v-model="isMember"
+      label="I'm member of"/>
     <CardsList
       v-if="profile"
-      :items="votings"
+      :items="votingsToShow"
       itemKey="_id"
-      emptyText="Any available voting for you!"
+      emptyText="Any available voting!"
       :loading="loading">
       <template #card="{item}" >
         <VotingCard
@@ -33,12 +38,20 @@ export default {
     VotingCard,
     CardsList
   },
+  data: () => ({
+    isMember: false
+  }),
   computed: {
     ...mapGetters({
       votings: VOTINGS,
       loading: VOTINGS_LOADING,
       profile: PROFILE
-    })
+    }),
+    votingsToShow() {
+      return this.isMember
+        ? this.votings.filter(({ members }) => !!members.find(({ userId }) => userId === this.profile.userId))
+        : this.votings;
+    }
   },
   methods: {
     ...mapActions({
