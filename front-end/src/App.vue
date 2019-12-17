@@ -14,7 +14,7 @@
       </div>
       <AlertContainer />
     </template>
-    <WalletPassword v-if="profile"/>
+    <WalletPassword />
   </v-app>
 </template>
 

@@ -21,7 +21,7 @@ http.interceptors.request.use(async (config) => {
 http.interceptors.response.use(
   (data) => data,
   (error) => {
-    if (error.response.status === 400) {
+    if (error.response && error.response.status === 400) {
       throw new Error(error.response.data.message || error.response.data);
     }
     throw new Error(error);
